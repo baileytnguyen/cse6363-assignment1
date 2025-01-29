@@ -2,6 +2,7 @@ from sklearn.datasets import load_iris
 from typing import Optional
 from sklearn.model_selection import train_test_split
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 class LinearRegression:
@@ -137,15 +138,22 @@ class LinearRegression:
                 patience_counter = 0
                 best_weights = self.weights.copy()
                 best_bias = self.bias.copy()
-            else:
+            elif self.patience > 0:
                 patience_counter += 1
-                if patience_counter >= patience:
+                if patience_counter >= self.patience:
                     print(f"Early stopping at epoch {epoch + 1}")
                     break
 
         # Restore best weights
         self.weights = best_weights
         self.bias = best_bias
+
+        # After each model trains, plot the loss against the step number
+        plt.plot(self.validation_losses)
+        plt.xlabel("Step")
+        plt.ylabel("Loss")
+        plt.title("Validation Loss")
+        plt.show()
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict using the linear model.
@@ -170,5 +178,36 @@ class LinearRegression:
         """
         # Scoring function.
         predictions: np.ndarray = self.predict(X)
+
+        # Mean squared error.
         mse: float = np.mean((y - predictions) ** 2)
+
         return mse
+
+    # Save the weights and bias to a file
+    def save(self, filename: str):
+        """Save the model parameters to a file.
+
+        Parameters
+        ----------
+        filename: str
+            The name of the file to save the model parameters.
+        """
+        np.savez(
+            filename,
+            weights=self.weights,
+            bias=self.bias,
+        )
+
+    # Load the weights and bias from a file
+    def load(self, filename: str):
+        """Load the model parameters from a file.
+
+        Parameters
+        ----------
+        filename: str
+            The name of the file to load the model parameters.
+        """
+        data = np.load(filename)
+        self.weights = data["weights"]
+        self.bias = data["bias"]
