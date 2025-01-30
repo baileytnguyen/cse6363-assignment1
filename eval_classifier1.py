@@ -19,17 +19,15 @@ def main():
         X, y, test_size=0.1, random_state=42
     )
 
-    # Train Logistic Regression
-    model = LogisticRegression(
-        learning_rate=0.1,
-        max_epochs=500,
-        regularization=0.00,
-        patience=0,
-    )
-    model.fit(X_train, y_train)
+    # load Logistic Regression
+    model = LogisticRegression()
+    model.load("logreg_petalwidth_petalwidth_target_species_model.npz")
+
+    # Print model accuracy
+    print("Model accuracy: ", model.score(X_test, y_test))
 
     # Plot decision boundary
-    model.plot_decision_boundary(X_train, y_train)
+    # model.plot_decision_boundary(X_train, y_train)
 
 
 if __name__ == "__main__":
