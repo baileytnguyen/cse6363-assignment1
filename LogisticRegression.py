@@ -75,7 +75,7 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
             if train_loss < best_loss:
                 best_loss = train_loss
                 patience_counter = 0
-            else:
+            elif self.patience > 0:
                 patience_counter += 1
                 if patience_counter >= self.patience:
                     print(f"Early stopping at epoch {epoch + 1}")
@@ -97,6 +97,8 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
     def score(self, X, y):
         """Compute accuracy."""
         y_pred = self.predict(X)
+        print("y_pred: ", y_pred)
+        print("y: ", y)
         return np.mean(y_pred == y)
 
     def save(self, filename):

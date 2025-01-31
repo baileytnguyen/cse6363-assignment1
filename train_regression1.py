@@ -19,8 +19,8 @@ def main():
     )
 
     # Initialize and train the linear regression model
-    model = LinearRegression(max_epochs=100)
-    model.fit(X_train, y_train, patience=0)
+    model = LinearRegression(max_epochs=100, regularization=0.0)
+    model.fit(X_train, y_train, patience=0, regularization=0.0)
 
     # Save the weights and bias to a file
     model.save("linreg_sepalwidth_petallength_target_petalwidth_model.npz")

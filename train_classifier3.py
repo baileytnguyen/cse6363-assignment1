@@ -22,9 +22,9 @@ def main():
     # Train logistic regression
     model = LogisticRegression(
         learning_rate=0.01,
-        max_epochs=500,
+        max_epochs=1000,
         regularization=0.00,
-        patience=3,
+        patience=0,
     )
     model.fit(X_train, y_train)
 
