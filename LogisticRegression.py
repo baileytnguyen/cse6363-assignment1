@@ -97,8 +97,6 @@ class LogisticRegression(BaseEstimator, ClassifierMixin):
     def score(self, X, y):
         """Compute accuracy."""
         y_pred = self.predict(X)
-        print("y_pred: ", y_pred)
-        print("y: ", y)
         return np.mean(y_pred == y)
 
     def save(self, filename):
